@@ -1,0 +1,13 @@
+For the table users
+
+CREATE TABLE `users` (
+ `userid` int(10) NOT NULL AUTO_INCREMENT,
+ `username` varchar(30) NOT NULL,
+ `pass` varchar(40) DEFAULT NULL,
+ `labid` varchar(30) DEFAULT NULL,
+ `access` int(1) DEFAULT NULL,
+ PRIMARY KEY (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1
+
+
+
