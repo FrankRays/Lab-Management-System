@@ -41,7 +41,7 @@
 			border-left:2px solid #aa0000;
 		}
 		.footer{
-			height:80px;
+			height:70px;
 			background-color: #eee;
 			border:2px solid #aaa;
 			margin:5px;
@@ -67,4 +67,11 @@
 		}
 		div{
 			border-radius: 10px;
+		}
+		.taskbutton{
+			background-color: white;
+			border:none;
+			font-style: italic;
+			font-size: 16px;
+			color: #aa0000;
 		}

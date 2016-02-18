@@ -46,7 +46,7 @@
 						//session variables
 						$_SESSION['loginid']='hod';
 						$_SESSION['username']=$row["username"];
-						header("Location: http://localhost/miniproject/views/hod.html");
+						header("Location: http://localhost/miniproject/views/hod.php");
 						/*echo '<script type="text/javascript">';
 						echo 'alert("welcome hod")';
 						echo '</script>';*/
@@ -61,6 +61,7 @@
 						echo '<script type="text/javascript">';
 						echo 'alert("welcome lab in charge")';
 						echo '</script>';
+						header("Location:views/incharge.php");
 					}
 					//to free the result set
 					mysqli_free_result($query_result);
