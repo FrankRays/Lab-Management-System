@@ -38,7 +38,7 @@
 			width: 15%;
 			height:400px;
 			float:right;
-			border-left:2px solid #aa0000;
+			border-left:2px solid #cc0000;
 		}
 		.footer{
 			height:70px;
@@ -74,4 +74,5 @@
 			font-style: italic;
 			font-size: 16px;
 			color: #aa0000;
+	
 		}
