@@ -9,5 +9,48 @@ CREATE TABLE `users` (
  PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1
 
+for the table item(request table)
 
+CREATE TABLE `item` (
+ `PRNo` int(10) NOT NULL AUTO_INCREMENT,
+ `ReqDate` date DEFAULT NULL,
+ `Category` varchar(30) DEFAULT NULL,
+ `Company` varchar(30) DEFAULT NULL,
+ `Quantity` int(5) DEFAULT NULL,
+ `LabId` varchar(30) DEFAULT NULL,
+ `Status` varchar(10) DEFAULT NULL,
+ `Add_date` date DEFAULT NULL,
+ PRIMARY KEY (`PRNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
+item specifications
+
+CREATE TABLE `item_spec` (
+ `PRNo` int(10) NOT NULL,
+ `ItemName` varchar(30) DEFAULT NULL,
+ `Capacity` float DEFAULT NULL,
+ `Unit` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+quotations
+
+CREATE TABLE `quotation` (
+ `PRNo` int(10) NOT NULL,
+ `SerialNo` int(5) NOT NULL AUTO_INCREMENT,
+ `SupplierName` varchar(30) DEFAULT NULL,
+ `Address` varchar(60) DEFAULT NULL,
+ `PhoneNo` int(15) DEFAULT NULL,
+ `Amount` int(10) DEFAULT NULL,
+ `Selected` tinyint(1) DEFAULT NULL,
+ KEY `PRNo` (`PRNo`),
+ KEY `SerialNo` (`SerialNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+table stock
+
+CREATE TABLE `stock` (
+ `ItemName` varchar(30) DEFAULT NULL,
+ `Lab1` int(10) DEFAULT NULL,
+ `Lab2` int(10) DEFAULT NULL,
+ `Lab3` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
