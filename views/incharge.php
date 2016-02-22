@@ -29,7 +29,7 @@
 			{				
 				header("Location:../login.php");
 				session_destroy();//session variables must be destroyed after signout
-				mysqli_close($conn);
+				mysqli_close($conn);//close connection
 			}
 			
 			
