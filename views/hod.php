@@ -51,7 +51,53 @@
 	<div class="center" id="center"> 
 		
 	<?php
-		if(isset($_POST['savechangepassword']))
+
+		if(isset($_POST['changepwd'])) //when change password button is clicked
+		{
+			include 'changepassword.php';
+				
+		}
+		else if(isset($_POST['createuserbtn']))
+		{
+			include 'createuser.php';
+		}
+
+		if(isset($_POST['createnewuser'])) //when create button inside create user is clicked
+		{
+			$newusername = $_POST['newusername'];
+			$newlabid = $_POST['newlabid'];
+			$new = $_POST['newpassword'];
+			$re_new = $_POST['reenterpassword'];
+
+			$sql = "select * from users where username=$newusername";
+			$query_result = mysqli_query($conn, $sql);
+			if($query_result == true)
+			{
+				echo '<script>';
+				echo 'alert("Username already exists")';
+				echo '</script>';
+			}
+			else
+			{   
+				if($new == $re_new)
+				{
+					$sql = "insert into users (username,pass,labid,access) values ('$newusername','$new','$newlabid',0)";
+					mysqli_query($conn, $sql);
+					echo '<script>';
+					echo 'alert("User create successfully")';
+					echo '</script>';
+				}
+				else 
+				{
+					echo '<script>';
+					echo 'alert("Password dont match")';
+					echo '</script>';
+				}
+			}
+
+
+		}
+		if(isset($_POST['savechangepassword'])) //when save button inside change password is clicked
 		{
 			$current=$_POST['currentchangepassword'];
 			$new=$_POST['newchangepassword'];
@@ -95,11 +141,7 @@
 				echo '</script>';
 			}	
 		}
-		if(isset($_POST['changepwd']))
-		{
-			include 'changepassword.php';
-				
-		}
+
 	?>
 		</div>
 	<div class=center> area for display</div>

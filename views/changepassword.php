@@ -1,14 +1,8 @@
 <html>
 <head> </head>
 <body>
-		<?php 
-			if(isset($_POST['savechangepassword']))
-			{
-
-			}
-			?>
 		<div id="password">
-		<p style="text-align: center; font-size:20px;">&nbsp;CHANGE PASSWORD</p>
+		<p style="text-align: center; font-size:20px;">CHANGE PASSWORD</p>
 		<hr />
 		<p></p>
 		<form action="hod.php" method="post">
@@ -43,8 +37,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
 		</div>
 	</body>
 </html>
