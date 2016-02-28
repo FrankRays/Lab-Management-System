@@ -33,7 +33,7 @@
 				if($query_row == 1)
 				{
 					//set the session variable and redirect to the page
-					$sql = "select access,labid,username from users where userid='$userid'";
+					$sql = "select access,labid,username,userid from users where userid='$userid'";
 					$query_result = mysqli_query($conn, $sql);
 					//the query_result is a mysqli object
 					//inorder to get the value as integer, we need to get rows as assoc array
@@ -44,8 +44,9 @@
 					{
 					
 						//session variables
-						$_SESSION['loginid']='hod';
+						$_SESSION['labid']='hod';
 						$_SESSION['username']=$row["username"];
+						$_SESSION['userid']=$row['userid'];		
 						header("Location: http://localhost/miniproject/views/hod.php");
 						/*echo '<script type="text/javascript">';
 						echo 'alert("welcome hod")';
@@ -55,8 +56,9 @@
 					{
 						$labid = $row["labid"];
 					
-						$_SESSION['loginid']=$labid;
+						$_SESSION['labid']=$labid;
 						$_SESSION['username']=$row["username"];
+						$_SESSION['userid']=$row['userid'];
 						//echo $_SESSION['loginid'];
 						echo '<script type="text/javascript">';
 						echo 'alert("welcome lab in charge")';

@@ -7,6 +7,7 @@
 <body>
 	<?php session_start(); ?>
 	<?php 
+
 		?>
 	<?php include '../dbconn.php'; ?>
 	<div class=header>
@@ -49,12 +50,55 @@
 	<!-- center panel-->
 	<div class="center" id="center"> 
 		
-	<?php 
-		
+	<?php
+		if(isset($_POST['savechangepassword']))
+		{
+			$current=$_POST['currentchangepassword'];
+			$new=$_POST['newchangepassword'];
+			$re_new=$_POST['reenterchangepassword'];
+			$userid=$_SESSION['userid'];
+			$sql="select * from users where pass='$current' and userid='$userid'";
+			$query_result = mysqli_query($conn, $sql);	
+			if($query_result !=false)
+			{
+				if($new == $re_new)
+				{
+					$query_row = mysqli_num_rows($query_result);
+					if($query_row == 1)
+					{
+						$sql = "update users set pass='$new' where userid='$userid'";
+						mysqli_query($conn, $sql);
+						echo '<script>';
+						echo 'alert("Password Changed successfully")';
+						echo '</script>';	
+					}
+					else
+					{
+						echo '<script>';
+						echo 'alert("Current password invalid")';
+						echo '</script>';	
+
+					}
+				}
+				else
+				{
+					echo '<script>';
+					echo 'alert("Passwords dont match")';
+					echo '</script>';	
+
+				}
+			}
+			else
+			{
+				echo '<script>';
+				echo 'alert("Current password invalid")';
+				echo '</script>';
+			}	
+		}
 		if(isset($_POST['changepwd']))
 		{
 			include 'changepassword.php';
-			
+				
 		}
 	?>
 		</div>
