@@ -17,7 +17,11 @@
 				<td width=10%><h3 >&nbsp;Name &nbsp; :</h3></td>
 				<td width=25%><label id="username"><span style="color:#aa0000"><?php echo $_SESSION['username'];?>&nbsp;</span></label></td>
 				<td align=center width=30%><h3><label>Head Of Department</label></h3></td>
-				<td align=right width=35%><input type="button" name="signouthod"value="   SIGN OUT   "/>&nbsp;</td>
+				<form method="post">
+				<td align=right width=35%>
+					<input type="submit" name="signout" value="   SIGN OUT   "/>&nbsp;
+				</td>
+				</form>
 
 			</tr>
 		</table>
@@ -60,6 +64,12 @@
 		else if(isset($_POST['createuserbtn']))
 		{
 			include 'createuser.php';
+		}
+		else if(isset($_POST['signout']))
+		{				
+			header("Location:../login.php");
+			session_destroy();//session variables must be destroyed after signout
+			mysqli_close($conn);//close connection
 		}
 
 		if(isset($_POST['createnewuser'])) //when create button inside create user is clicked
