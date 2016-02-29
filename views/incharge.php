@@ -88,7 +88,7 @@
 		
 		if(isset($_POST['changepwd']))
 		{
-			include 'changepassword.php';
+			include 'changepasswordincharge.php';
 			
 		}
 		else if(isset($_POST['purchase']))
@@ -138,8 +138,59 @@
 				like a skyscraper
 			';
 		}
-		else
-			echo'area for display';
+		
+		else if(isset($_POST['signout']))
+		{				
+			header("Location:../login.php");
+			session_destroy();//session variables must be destroyed after signout
+			mysqli_close($conn);//close connection
+		}
+
+		
+		if(isset($_POST['savechangepassword'])) //when save button inside change password is clicked
+		{
+			$current=$_POST['currentchangepassword'];
+			$new=$_POST['newchangepassword'];
+			$re_new=$_POST['reenterchangepassword'];
+			$userid=$_SESSION['userid'];
+			$sql="select * from users where pass='$current' and userid='$userid'";
+			$query_result = mysqli_query($conn, $sql);	
+			if($query_result !=false)
+			{
+				if($new == $re_new)
+				{
+					$query_row = mysqli_num_rows($query_result);
+					if($query_row == 1)
+					{
+						$sql = "update users set pass='$new' where userid='$userid'";
+						mysqli_query($conn, $sql);
+						echo '<script>';
+						echo 'alert("Password Changed successfully")';
+						echo '</script>';	
+					}
+					else
+					{
+						echo '<script>';
+						echo 'alert("Current password invalid")';
+						echo '</script>';	
+
+					}
+				}
+				else
+				{
+					echo '<script>';
+					echo 'alert("Passwords dont match")';
+					echo '</script>';	
+
+				}
+			}
+			else
+			{
+				echo '<script>';
+				echo 'alert("Current password invalid")';
+				echo '</script>';
+			}	
+		}
 	?>
 	
 	</div><!-- end of center panel-->
