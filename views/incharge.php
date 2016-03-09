@@ -9,6 +9,8 @@
 	<?php include '../dbconn.php'; 
 		session_start(); ?>
 
+		
+
 	<div class=header>
 		<p></p>
 		<table width=100% >
@@ -45,7 +47,7 @@
 		<hr>
 		<hr>
 		<form method="post">
-			<ul>
+			
 				
 				<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
 				<hr></hr>
@@ -56,7 +58,7 @@
 				<p><input class="taskbutton" type="submit" name="qdetails" value="Enter Quotation Details"></p>
 				<hr></hr>
 				
-			</ul>
+			
 		</form>
 	</div>
 
@@ -93,26 +95,15 @@
 		}
 		else if(isset($_POST['purchase']))
 		{
-			include 'purchase.php';
+			include 'purchase1.php';
 		}
 		else if(isset($_POST['status']))
 		{
-			echo'
-				<div> 
-					<p style="text-align: center; font-size:20px;">&nbsp;STATUS OF REQUESTS</p>
-					<hr />
-					<p></p>
-					<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:150px;margin-left:40px;margin-bottom:20px;overflow:scroll;">
-						display prno., itemname, and status i.e., approved or rejected
-					</div>
-				</div>
-			';
+			include 'requeststatus.php';
 		}
 		else if(isset($_POST['qdetails']))
 		{
-			echo'
-				you could write a book on how to ruin someones perfect day
-			';
+			include 'quotationdetails.php';
 		}
 		else if(isset($_POST['addtostock']))
 		{
@@ -120,23 +111,15 @@
 		}
 		else if(isset($_POST['discard']))
 		{
-			echo'
-				so hello from the other side Atleast I can say that I tried
-			';
+			include 'discard.php';
 		}
 		else if(isset($_POST['searchitem']))
 		{
-			echo'
-				Im gonna swing from the chandelier			
-			';
+			include 'searchitemincharge.php';
 		}
 		else if(isset($_POST['viewstock']))
 		{
-			echo'
-				Go on and try to tear me down
-				I will be rising from the ground
-				like a skyscraper
-			';
+			include 'viewstockincharge.php';
 		}
 		
 		else if(isset($_POST['signout']))
@@ -190,6 +173,62 @@
 				echo 'alert("Current password invalid")';
 				echo '</script>';
 			}	
+		}
+		//for item purchase request forms
+		if(isset($_POST['continuepurchase1']))
+		{
+			include 'purchase2.php';
+		}
+		if(isset($_POST['addcomponentpurchase2']))
+		{
+			//write code to insert values from form to datbase and reset the fields,remain on same page
+			//$_POST=array();
+			//$itemname=$_POST['itemnamepurchase2'];
+			//header('Location: '. $_SERVER['PHP_SELF']);  
+			//unset($itemname);
+			//echo (isset($itemname))? $itemname:"";
+			//none of the above code is working
+			
+		}
+		if (isset($_POST['savedetailspurchase2']))
+		{
+			include 'purchase1.php';
+		}
+		//quotation details
+		if (isset($_POST['selectquotationdetails']))
+		 {
+			include 'quotationdetails2.php';
+		}
+		if (isset($_POST['okquotationdetails2']))
+		 {
+			include 'quotationdetails3.php';
+		}
+		if (isset($_POST['addquotationdetails3']))
+		 {
+			include 'quotationdetails3.php';
+		}
+		if (isset($_POST['nextrequestquotationdetails3']))
+		 {
+			include 'quotationdetails.php';
+		}
+		//add to stock form
+		if (isset($_POST['selectaddtostock']))
+		 {
+			include 'addtostock2.php';
+		}
+		if (isset($_POST['addaddtostock']))
+		{
+			include 'addtostock.php';
+		}
+		//discard item form
+		if (isset($_POST['discarddiscard']))
+		{
+			/*
+			search for metioned item 
+			if found decrease count
+				and echo message discard successful
+			else no such item
+			*/
 		}
 	?>
 	

@@ -6,7 +6,7 @@
 		<hr />
 		<p></p>
 		<form action="hod.php" method="post">
-		<table align="center" border="0" cellpadding="1" cellspacing="5" style="width:500px;">
+		<table align="center" border="0" cellpadding="1" cellspacing="20" style="width:500px;">
 		<tbody>
 			<tr>
 				<td width=180px align=right>Current Password</td>
@@ -30,13 +30,7 @@
 		<input type="submit" name="savechangepassword" value="SAVE" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 		<input type="submit" name="cancelchangepassword" value="CANCEL" /></p>
 		</form>
-		<table align="center" border="1" cellpadding="1" cellspacing="1" style="height:100px;width:500px;">
-			<tbody>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
-			</tbody>
-		</table>
+		
 		</div>
 	</body>
 </html>
