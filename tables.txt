@@ -12,45 +12,58 @@ CREATE TABLE `users` (
 for the table item(request table)
 
 CREATE TABLE `item` (
- `PRNo` int(10) NOT NULL AUTO_INCREMENT,
+ `Prno` int(10) NOT NULL AUTO_INCREMENT,
  `ReqDate` date DEFAULT NULL,
- `Category` varchar(30) DEFAULT NULL,
+ `Category` varchar(20) DEFAULT NULL,
  `Company` varchar(30) DEFAULT NULL,
  `Quantity` int(5) DEFAULT NULL,
- `LabId` varchar(30) DEFAULT NULL,
- `Status` varchar(10) DEFAULT NULL,
+ `LabID` varchar(10) DEFAULT NULL,
+ `Status` int(1) DEFAULT '2',
  `Add_date` date DEFAULT NULL,
- PRIMARY KEY (`PRNo`)
+ `Add_stock` char(1) DEFAULT 'n',
+ `q_status` char(1) DEFAULT 'n',
+ PRIMARY KEY (`Prno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
 
 item specifications
 
 CREATE TABLE `item_spec` (
- `PRNo` int(10) NOT NULL,
- `ItemName` varchar(30) DEFAULT NULL,
- `Capacity` float DEFAULT NULL,
- `Unit` varchar(5) DEFAULT NULL
+ `Prno` int(10) DEFAULT NULL,
+ `Item` varchar(30) DEFAULT NULL,
+ `Spec` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
 quotations
 
 CREATE TABLE `quotation` (
- `PRNo` int(10) NOT NULL,
- `SerialNo` int(5) NOT NULL AUTO_INCREMENT,
+ `Prno` int(10) NOT NULL,
+ `SerialNo` int(20) NOT NULL AUTO_INCREMENT,
  `SupplierName` varchar(30) DEFAULT NULL,
  `Address` varchar(60) DEFAULT NULL,
- `PhoneNo` int(15) DEFAULT NULL,
+ `PhoneNo` int(12) DEFAULT NULL,
  `Amount` int(10) DEFAULT NULL,
- `Selected` tinyint(1) DEFAULT NULL,
- KEY `PRNo` (`PRNo`),
- KEY `SerialNo` (`SerialNo`)
+ `Selected` char(1) DEFAULT 'n',
+ PRIMARY KEY (`SerialNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
 
 table stock
 
 CREATE TABLE `stock` (
- `ItemName` varchar(30) DEFAULT NULL,
+ `Item` varchar(30) DEFAULT NULL,
  `Lab1` int(10) DEFAULT NULL,
  `Lab2` int(10) DEFAULT NULL,
- `Lab3` int(10) DEFAULT NULL
+ `Lab3` int(10) DEFAULT NULL,
+ `Spec` varchar(30) DEFAULT NULL,
+ `Category` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+
+
+table prno
+
+CREATE TABLE `prno` (
+ `id` int(1) DEFAULT NULL,
+ `prno` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
