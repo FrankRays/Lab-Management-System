@@ -177,22 +177,23 @@
 		//for item purchase request forms
 		if(isset($_POST['continuepurchase1']))
 		{
-			include 'purchase2.php';
-		}
-		if(isset($_POST['addcomponentpurchase2']))
-		{
-			//write code to insert values from form to datbase and reset the fields,remain on same page
-			//$_POST=array();
-			//$itemname=$_POST['itemnamepurchase2'];
-			//header('Location: '. $_SERVER['PHP_SELF']);  
-			//unset($itemname);
-			//echo (isset($itemname))? $itemname:"";
-			//none of the above code is working
+			//write code to prevent sql injections and to notify user if important fields are left blank
+			 $date=$_POST['datepurchase1'];
+			$category=$_POST['categorypurchase1'];
+			$company=$_POST['companypurchase1'];
+			$quantity=$_POST['quantitypurchase1'];
+			$LabID= $_SESSION['labid'];
+			$sql="insert into item(ReqDate,Category,Company,Quantity,LabID) values ('$date','$category','$company','$quantity','$LabID')";
+			if (mysqli_query($conn, $sql)) 
+			{
+			echo "New record created successfully";
+			} else {
+			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+			}
+
 			
-		}
-		if (isset($_POST['savedetailspurchase2']))
-		{
-			include 'purchase1.php';
+     
+			header("Location:purchase2.php");
 		}
 		//quotation details
 		if (isset($_POST['selectquotationdetails']))

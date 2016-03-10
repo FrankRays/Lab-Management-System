@@ -19,7 +19,7 @@
 								<td width=180ox align=right>Category </td>
 								<td> :</td>
 								<td>
-									<select>
+									<select name="categorypurchase1">
 										<option>Single Item</option>
 										<option>System</option>
 										<option>Laptop</option>

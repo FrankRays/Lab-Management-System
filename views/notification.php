@@ -13,7 +13,7 @@
 ?>
 	<form action="hod.php" method="post" >
 		<p style="margin-left:240px;">
-			<input type="text" name="notifprno" placeholder="Enter Prno">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			<input type="text" name="notifprno">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<input type="submit" name="notifacceptbtn" value="ACCEPT">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<input type="submit" name="notifrejectbtn" value="REJECT">
 		</p>
