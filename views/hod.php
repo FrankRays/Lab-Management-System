@@ -65,6 +65,35 @@
 		{
 			include 'createuser.php';
 		}
+		else if(isset($_POST['notif'])) //notifications for hod
+		{
+			$notifprno = 0;
+			$sql = 'select Prno, Item, Spec, Quantity, LabID from item natural join item_spec where item.Status=2';
+			$query_result = mysqli_query($conn, $sql);
+
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:300px;margin-right:315px;margin-top:50px;height:100px;">';
+				echo '<table border="1">
+					  <tr><th>Prno</th><th>Item</th><th>Spec</th><th>Quantity</th><th>LabID</th></tr>';
+				//to display the result as a table in html
+
+				while($row = mysqli_fetch_assoc($query_result))
+				{
+					echo '<tr><td>'.$row["Prno"].'</td><td>'.$row["Item"].'</td><td>'.$row["Spec"].'</td><td>'.$row["Quantity"].
+					'</td><td>'.$row["LabID"].'</td></tr>';
+				}
+				echo '</table>';
+				echo '</div>';
+			}
+			else
+			{
+				echo '0 results!!';
+			}
+			include 'notification.php';
+
+	
+		}
 		else if(isset($_POST['signout']))
 		{				
 			header("Location:../login.php");
@@ -150,6 +179,19 @@
 				echo 'alert("Current password invalid")';
 				echo '</script>';
 			}	
+		}
+		if(isset($_POST['notifacceptbtn']))
+			{
+				$notifprno=$_POST['notifprno'];
+				$sql1 = "update item set Status=1 where Prno='$notifprno'";
+				$query_result1 = mysqli_query($conn, $sql1);
+			}
+		if(isset($_POST['notifrejectbtn']))
+		{	
+
+			$notifprno=$_POST['notifprno'];
+			$sql1 = "update item set status=0 where Prno=$notifprno";
+			$query_result1 = mysqli_query($conn, $sql1);
 		}
 
 	?>
