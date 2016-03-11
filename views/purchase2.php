@@ -135,11 +135,9 @@
 			$row = mysqli_fetch_array($query_result);
 			
 			$prno=$row[0];
-			echo $prno;
-		   // $sql='insert into item_spec(Prno,Item,Spec) values("$prno","itemname","$spec")';
+			
 		 	$sql="insert into item_spec values('$prno','$itemname','$spec')";
 			$query_result=mysqli_query($conn,$sql);
-			
 		    
 		 }
 		 

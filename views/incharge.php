@@ -190,10 +190,92 @@
 			} else {
 			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 			}
-
+			$sql = "select max(Prno) from item" ;
+			$query_result=mysqli_query($conn,$sql);
+			
+			$row = mysqli_fetch_array($query_result);
+			
+			$prno=$row[0];
+			$sql="insert into prno values('1','$prno')";
+			$query_result=mysqli_query($conn,$sql);
 			
      
 			header("Location:purchase2.php");
+		}
+		//request status
+		if (isset($_POST['okrequeststatus'])) 
+		{
+			$date=$_POST['daterequeststatus'];
+			
+			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status from item natural join item_spec where item.ReqDate>'$date'";
+			$query_result=mysqli_query($conn,$sql);
+			include 'requeststatus.php';
+			if(mysqli_num_rows($query_result)>0)
+			{
+				echo'<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:210px;margin-left:40px;margin-bottom:20px;overflow:scroll;">';
+				echo '<table border-bottom="1" cellspacing="10" cellpadding="2">
+					  <tr>
+					  	<th>Date of Request</th>
+					  	<th>Prno</th>
+					  	<th>Item</th>
+					  	<th>Spec</th>
+					  	<th>Quantity</th>
+					  	<th>Category</th>
+					  	<th>Status</th>
+					  </tr>';
+				//to display the result as a table in html
+				//$prev=-1;
+				while($row = mysqli_fetch_assoc($query_result))
+				{
+					//$current=$row["Prno"];
+					if($row["Status"]==2)
+						$stat="Not viewed";
+					else if($row["Status"]==1)
+						$stat="Approved";
+					else
+						$stat="Rejected";
+					// was written with the intention of drawing a line between different requests ie whenever there is a change in prno
+					/*
+					if($current!=$prev)
+					{   
+						<style>
+						.tablerow
+						{
+							border-top:1 px solid black;
+						}
+						</style>
+					}
+					else
+					{
+						.tablerow
+						{
+							border:none;
+						}
+					}
+					*/
+					echo '<tr name="tablerow"><td>'.$row["ReqDate"].'</td>
+							  <td>'.$row["Prno"].'</td>
+							  <td>'.$row["Item"].'</td>
+							  <td>'.$row["Spec"].'</td>
+							  <td>'.$row["Quantity"].'</td>
+							  <td>'.$row["Category"].'</td>
+							  <td>'.$stat.'</td>
+							  <td>
+						  </tr>';
+
+					//$prev=$row["Prno"];
+				}
+				echo '</table>';
+				echo '</div>';
+			
+			}
+			else
+			{
+				echo '<script>
+				alert("No entries after specified date");
+				</script>';
+			}
+			
 		}
 		//quotation details
 		if (isset($_POST['selectquotationdetails']))
