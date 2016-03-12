@@ -73,8 +73,8 @@
 
 			if(mysqli_num_rows($query_result) > 0)
 			{
-				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:300px;margin-right:315px;margin-top:50px;height:100px;">';
-				echo '<table border="1">
+				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:250px;margin-right:290px;margin-top:50px;height:100px;width:400px;">';
+				echo '<table border-bottom="1" cellspacing="9" cellpadding="2" >
 					  <tr><th>Prno</th><th>Item</th><th>Spec</th><th>Quantity</th><th>LabID</th></tr>';
 				//to display the result as a table in html
 
@@ -96,13 +96,13 @@
 		}
 		else if(isset($_POST['qselection']))
 		{
-			$sql = 'select Prno, Item, Spec, Quantity, LabID from item natural join item_spec where item.Status=1 and item.q_status="n"';
+			$sql = 'select distinct Prno, Item, Spec, Quantity, LabID from item natural join item_spec natural join quotation where item.Status=1 and item.q_status="n"';
 			$query_result = mysqli_query($conn, $sql);
 
 			if(mysqli_num_rows($query_result) > 0)
 			{
-				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:300px;margin-right:315px;margin-top:50px;height:100px;width:320px">';
-				echo '<table border="1">
+				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:250px;margin-right:315px;margin-top:50px;height:100px;width:420px">';
+				echo '<table cellspacing="9" cellpadding="2">
 					  <tr><th>Prno</th><th>Item</th><th>Spec</th><th>Quantity</th><th>LabID</th></tr>';
 				//to display the result as a table in html
 
