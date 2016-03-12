@@ -34,18 +34,18 @@ CREATE TABLE `item_spec` (
  `Spec` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
-quotations
+quotation
 
 CREATE TABLE `quotation` (
  `Prno` int(10) NOT NULL,
  `SerialNo` int(20) NOT NULL AUTO_INCREMENT,
  `SupplierName` varchar(30) DEFAULT NULL,
  `Address` varchar(60) DEFAULT NULL,
- `PhoneNo` int(12) DEFAULT NULL,
+ `PhoneNo` int(30) DEFAULT NULL,
  `Amount` int(10) DEFAULT NULL,
  `Selected` char(1) DEFAULT 'n',
- PRIMARY KEY (`SerialNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+ PRIMARY KEY (`Prno`,`SerialNo`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
 
 table stock
