@@ -13,23 +13,23 @@
 				<tr>
 					<td width=180px align=right>Supplier Name</td>
 					<td>:</td>
-					<td><input type="text" maxlength="30"></td>
+					<td><input name ="suppliername" type="text" maxlength="30"></td>
 				</tr>
 				<tr>
 					<td width=180px align=right>Amount</td>
 					<td>:</td>
-					<td><input type="number"></td>
+					<td><input name="amount" type="number"></td>
 				</tr>
 				<tr>
 					<td width=180px align=right>Address</td>
 					<td>:</td>
-					<td><input type="textarea"></td>
+					<td><input name="address"type="textarea"></td>
 
 				</tr>
 				<tr>
 					<td width=180px align=right>Phone</td>
 					<td>:</td>
-					<td><input type="number"></td>
+					<td><input name="phone"type="number"></td>
 				</tr>
 			</tbody>
 			</table>

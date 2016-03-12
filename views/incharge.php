@@ -104,6 +104,8 @@
 		else if(isset($_POST['qdetails']))
 		{
 			include 'quotationdetails.php';
+			
+			
 		}
 		else if(isset($_POST['addtostock']))
 		{
@@ -178,6 +180,7 @@
 		if(isset($_POST['continuepurchase1']))
 		{
 			//write code to prevent sql injections and to notify user if important fields are left blank
+			//it will be nice if date input could  be taken from system
 			 $date=$_POST['datepurchase1'];
 			$category=$_POST['categorypurchase1'];
 			$company=$_POST['companypurchase1'];
@@ -196,7 +199,7 @@
 			$row = mysqli_fetch_array($query_result);
 			
 			$prno=$row[0];
-			$sql="insert into prno values('1','$prno')";
+			$sql="update prno set prno='$prno') where id=1";
 			$query_result=mysqli_query($conn,$sql);
 			
      
@@ -207,12 +210,12 @@
 		{
 			$date=$_POST['daterequeststatus'];
 			
-			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status from item natural join item_spec where item.ReqDate>'$date'";
+			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status from item natural join item_spec where item.ReqDate>'$date'and item.add_stock='n'";
 			$query_result=mysqli_query($conn,$sql);
 			include 'requeststatus.php';
 			if(mysqli_num_rows($query_result)>0)
 			{
-				echo'<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:210px;margin-left:40px;margin-bottom:20px;overflow:scroll;">';
+				echo'<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:210px;margin-left:40px;margin-bottom:20px;overflow-y:scroll;">';
 				echo '<table border-bottom="1" cellspacing="10" cellpadding="2">
 					  <tr>
 					  	<th>Date of Request</th>
@@ -224,10 +227,10 @@
 					  	<th>Status</th>
 					  </tr>';
 				//to display the result as a table in html
-				//$prev=-1;
+				$prev=-1;
 				while($row = mysqli_fetch_assoc($query_result))
 				{
-					//$current=$row["Prno"];
+					$current=$row["Prno"];
 					if($row["Status"]==2)
 						$stat="Not viewed";
 					else if($row["Status"]==1)
@@ -235,24 +238,18 @@
 					else
 						$stat="Rejected";
 					// was written with the intention of drawing a line between different requests ie whenever there is a change in prno
-					/*
+					
 					if($current!=$prev)
 					{   
-						<style>
-						.tablerow
-						{
-							border-top:1 px solid black;
-						}
-						</style>
+						echo '<tr><td><hr></hr></td>
+								  <td><hr></hr></td>
+								  <td><hr></hr></td>
+								  <td><hr></hr></td>
+								  <td><hr></hr></td>
+								  <td><hr></hr></td>
+								  <td><hr></hr></td>
+							</tr>';
 					}
-					else
-					{
-						.tablerow
-						{
-							border:none;
-						}
-					}
-					*/
 					echo '<tr name="tablerow"><td>'.$row["ReqDate"].'</td>
 							  <td>'.$row["Prno"].'</td>
 							  <td>'.$row["Item"].'</td>
@@ -263,7 +260,7 @@
 							  <td>
 						  </tr>';
 
-					//$prev=$row["Prno"];
+					$prev=$row["Prno"];
 				}
 				echo '</table>';
 				echo '</div>';
@@ -280,14 +277,19 @@
 		//quotation details
 		if (isset($_POST['selectquotationdetails']))
 		 {
-			include 'quotationdetails2.php';
-		}
-		if (isset($_POST['okquotationdetails2']))
-		 {
+			$_SESSION['selectedprno']=$_POST['prnoquotationdetails'];
 			include 'quotationdetails3.php';
 		}
 		if (isset($_POST['addquotationdetails3']))
 		 {
+		 	$suppliername=$_POST['suppliername'];
+		 	$amount=$_POST['amount'];
+		 	$address=$_POST['address'];
+		 	$phone=$_POST['phone'];
+		    $prno= $_SESSION['selectedprno'];
+		    //echo $prno;
+		 	$sql="insert into quotation(Prno,SupplierName,Address,PhoneNo,Amount) values('$prno','$suppliername','$address','$phone','$amount')";
+		 	mysqli_query($conn,$sql)	;
 			include 'quotationdetails3.php';
 		}
 		if (isset($_POST['nextrequestquotationdetails3']))
