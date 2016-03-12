@@ -121,6 +121,10 @@
 			include 'quotationselection.php';
 
 		}
+		else if(isset($_POST['searchitem']))
+		{
+			include 'searchitemhod.php';
+		}
 		else if(isset($_POST['signout']))
 		{				
 			header("Location:../login.php");
@@ -225,6 +229,38 @@
 			$prno = $_POST['quotationselectiontext'];
 			$_SESSION['prno'] = $prno;
 			header("Location:quotationselection2.php");
+		}
+		if(isset($_POST['searchhod']))
+		{
+			include 'searchitemhod.php';
+			$itemname = $_POST['itemsearchhod'];
+			$spec = $_POST['specsearchhod'];
+			$sql = "select * from stock where Item='$itemname' and Spec='$spec'";
+			$query_result = mysqli_query($conn, $sql);
+
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:250px;margin-right:315px;margin-top:50px;height:100px;width:420px">';
+				echo '<table cellspacing="9" cellpadding="2">
+					  <tr><th>Item</th><th>Lab1</th><th>Lab2</th><th>Lab3</th><th>Spec</th><th>Category</th></tr>';
+				//to display the result as a table in html
+
+				while($row = mysqli_fetch_array($query_result))
+				{
+					echo '<tr><td>'.$row[0].'</td>
+					<td>'.$row[1].'</td>
+					<td>'.$row[2].'</td>
+					<td>'.$row[3].'</td>
+					<td>'.$row[4].'</td>
+					<td>'.$row[5].'</td></tr>';
+				}
+				echo '</table>';
+				echo '</div>';
+			}
+			else
+			{
+				echo '0 results!!';
+			}
 		}
 
 	?>
