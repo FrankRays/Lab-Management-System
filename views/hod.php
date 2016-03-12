@@ -94,6 +94,33 @@
 
 	
 		}
+		else if(isset($_POST['qselection']))
+		{
+			$sql = 'select Prno, Item, Spec, Quantity, LabID from item natural join item_spec where item.Status=1 and item.q_status="n"';
+			$query_result = mysqli_query($conn, $sql);
+
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:300px;margin-right:315px;margin-top:50px;height:100px;width:320px">';
+				echo '<table border="1">
+					  <tr><th>Prno</th><th>Item</th><th>Spec</th><th>Quantity</th><th>LabID</th></tr>';
+				//to display the result as a table in html
+
+				while($row = mysqli_fetch_assoc($query_result))
+				{
+					echo '<tr><td>'.$row["Prno"].'</td><td>'.$row["Item"].'</td><td>'.$row["Spec"].'</td><td>'.$row["Quantity"].
+					'</td><td>'.$row["LabID"].'</td></tr>';
+				}
+				echo '</table>';
+				echo '</div>';
+			}
+			else
+			{
+				echo '0 results!!';
+			}
+			include 'quotationselection.php';
+
+		}
 		else if(isset($_POST['signout']))
 		{				
 			header("Location:../login.php");
@@ -180,18 +207,24 @@
 				echo '</script>';
 			}	
 		}
-		if(isset($_POST['notifacceptbtn']))
+		if(isset($_POST['notifacceptbtn'])) //inside notifications
 			{
 				$notifprno=$_POST['notifprno'];
 				$sql1 = "update item set Status=1 where Prno='$notifprno'";
 				$query_result1 = mysqli_query($conn, $sql1);
 			}
-		if(isset($_POST['notifrejectbtn']))
+		if(isset($_POST['notifrejectbtn'])) //inside notifications
 		{	
 
 			$notifprno=$_POST['notifprno'];
 			$sql1 = "update item set status=0 where Prno=$notifprno";
 			$query_result1 = mysqli_query($conn, $sql1);
+		}
+		if(isset($_POST['quotationselectioncontinue'])) //inside quotation selection
+		{
+			$prno = $_POST['quotationselectiontext'];
+			$_SESSION['prno'] = $prno;
+			header("Location:quotationselection2.php");
 		}
 
 	?>
