@@ -299,10 +299,13 @@
 		//add to stock form
 		if (isset($_POST['selectaddtostock']))
 		 {
+		 	$_SESSION['selectedprno']=$_POST['prnoaddtostock'];
 			include 'addtostock2.php';
 		}
 		if (isset($_POST['addaddtostock']))
 		{
+			$sql="update item set add_stock='y' where Prno='$_SESSION[selectedprno]'";
+			mysqli_query($conn,$sql);
 			include 'addtostock.php';
 		}
 		//discard item form
