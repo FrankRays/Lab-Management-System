@@ -21,9 +21,10 @@
 							<!-- write code for displaying prno-->
 						<?php
 						$LabID= $_SESSION['labid'];
+
 						//had used select distinct in this page to obtain distinct prnos
 						//later realized the stupidity- used natural join when prnos cud b obtained from item table alone
-						$sql="select ReqDate,Prno,Item,Spec,Quantity,Category from item natural join item_spec where Status=1 and q_status='y' and LabID='$LabID'and add_stock='n'";
+						$sql="select ReqDate,Prno,Item,Spec,Quantity,Category from item natural join item_spec where Status=1 and q_status='y' and LabID= '$LabID' and add_stock='n'";
 						//$sql="select distinct Prno from (select Prno from item union select Prno from item_spec) where Status=1 and q_status=n ";
 						$query_result=mysqli_query($conn,$sql);
 						//$row=mysqli_fetch_assoc($query_result);

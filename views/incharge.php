@@ -210,7 +210,9 @@
 		{
 			$date=$_POST['daterequeststatus'];
 			
-			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status from item natural join item_spec where item.ReqDate>'$date'and item.add_stock='n'";
+			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status 
+				from item natural join item_spec 
+				where item.ReqDate>'$date'and item.add_stock='n' and LabID='$_SESSION[labid]'";
 			$query_result=mysqli_query($conn,$sql);
 			include 'requeststatus.php';
 			if(mysqli_num_rows($query_result)>0)
@@ -304,10 +306,85 @@
 		}
 		if (isset($_POST['addaddtostock']))
 		{
-			$sql="update item set add_stock='y' where Prno='$_SESSION[selectedprno]'";
-			mysqli_query($conn,$sql);
+			//find a way of inserting system date into Add_date field of item table
+			$sql="update item set add_stock='y' 
+					where Prno='$_SESSION[selectedprno]'";
+			$query_result=mysqli_query($conn,$sql);
+			$sql="select Item,Spec,Category,Quantity
+				 	from item natural join item_spec
+				 	 where Prno='$_SESSION[selectedprno]'";
+			$query_result=mysqli_query($conn,$sql);
+			//selecting field NAMES of stock table
+			$query = 'select * from stock';
+			$result = mysqli_query($conn,$query);
+			$i=0;
+			$LabID= $_SESSION['labid'];
+			while ($i < mysqli_num_fields($result))
+			{
+			$meta = mysqli_fetch_field($result);
+				//$meta->name gives field name
+
+				if($meta->name==$LabID)
+				{
+					$labss=$meta->name;
+					break;
+				}
+				$i++;//iterate to obtain next field NAME	
+
+			}
+
+			if(mysqli_num_rows($query_result)>0)
+			{			
+				
+				//for each record in item_spec table that needs to be added to stock
+				while($row=mysqli_fetch_assoc($query_result))
+				{
+					$sql2="select Item,Spec,Category
+						 from stock
+						  where Item='$row[Item]' and Spec='$row[Spec]'";	
+					$query_result2=mysqli_query($conn,$sql2);
+					$present=0;
+					//compare with each record of second query result ie scan full stock table to see if there is already an identical
+					//item with the same spec and category entered
+					while($row2=mysqli_fetch_assoc($query_result2))
+					{
+						if($row['Item']==$row2['Item'] && $row['Spec']==$row2['Spec']&& $row['Category']==$row2['Category'])
+						{
+							//if true simply increase quantity
+							/* for testing purposes
+							echo '<script>
+							alert("Match found in stock table");
+							</script>';
+							*/
+						    mysqli_query($conn,"update stock set $labss=$labss+'$row[Quantity]'
+						    					where Item='$row[Item]' and Spec='$row[Spec]' and Category='$row[Category]'");
+							$present=1;
+							break;//that particular item has been dealt with. Move onto next item
+						}					
+							
+					}
+					//make new entry in stock table and add quantity corresp to labid
+					//exact item is not present in stock table
+					if($present!=1)
+					{
+						/*for testing purposes
+						echo '<script>
+						alert("have to make a new entry in stock table");
+						</script>';	
+						*/					
+						 mysqli_query($conn,"insert into stock(Item,Spec,Category,$labss) values('$row[Item]','$row[Spec]','$row[Category]','$row[Quantity]')");	
+					}
+				}// stock table is uptodate
+			}
+			else
+			{
+				//write something?
+			}
+
 			include 'addtostock.php';
 		}
+
+		
 		//discard item form
 		if (isset($_POST['discarddiscard']))
 		{
