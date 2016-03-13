@@ -30,7 +30,7 @@
 
 						if(mysqli_num_rows($query_result)>0)
 						{
-							echo'<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:200px;margin-left:40px;margin-bottom:20px;overflow-y:scroll;">';
+							echo'<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:200px;margin-bottom:20px;overflow-y:scroll;">';
 							echo '<table cellspacing="10" cellpadding="2">
 							  <tr>
 							  	<th>Date of Request</th>

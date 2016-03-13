@@ -19,10 +19,21 @@
 				<td>:</td>
 				<td><input maxlength="30" name="specdiscard" size="25" type="text" /></td>
 			</tr>
+			<!--
 			<tr>
 				<td width=180px align=right>Category</td>
 				<td>:</td>
-				<td><input maxlength="30" name="categorydiscard" size="25" type="text" /></td>
+				<td><select name="categorydiscard">
+										<option>Single Item</option>
+										<option>System</option>
+										<option>Laptop</option>
+									</select></td>
+			</tr>
+		-->
+			<tr>
+				<td width=180px align=right>Quantity</td>
+				<td>:</td>
+				<td><input maxlength="5" name="qtydiscard" type="number" /></td>
 			</tr>
 		</tbody>
 		</table>

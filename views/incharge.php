@@ -103,8 +103,7 @@
 		}
 		else if(isset($_POST['qdetails']))
 		{
-			include 'quotationdetails.php';
-			
+			include 'quotationdetails.php';		
 			
 		}
 		else if(isset($_POST['addtostock']))
@@ -121,12 +120,54 @@
 		}
 		else if(isset($_POST['viewstock']))
 		{
-			include 'viewstockincharge.php';
+			$sql = "select Item,$_SESSION[labid],Spec,Category from stock";
+			$query_result = mysqli_query($conn, $sql);
+			
+			echo '
+				<form method="post">
+					<p style="text-align: center; font-size:20px;">&nbsp;VIEW STOCK</p>
+					<hr />
+					<p></p>';								
+					
+			echo '	<div style="width:60%;align:center;margin-left:20%;border:2px solid #ccc; max-height:250px;margin-bottom:20px;overflow-y:scroll;">';
+					echo '<table  align= center cellspacing="10" cellpadding="2">';
+					$i=0;
+					$LabID= $_SESSION['labid'];
+					//to display table column names
+					echo '<tr>';
+						while ($i < mysqli_num_fields($query_result))
+						{
+							$meta = mysqli_fetch_field($query_result);
+							$i++;//iterate to obtain next field NAME
+							echo '<th>'.$meta->name.'</th>';						
+							
+						}
+					echo'</tr>';
+						if(mysqli_num_rows($query_result) > 0)
+						{
+
+							while($row = mysqli_fetch_array($query_result))
+							{
+								if($row[1]==0)
+									continue;
+								echo '<tr><td>'.$row[0].'</td>
+								<td>'.$row[1].'</td>								
+								<td>'.$row[2].'</td>
+								<td>'.$row[3].'</td></tr>';
+							}
+							echo '</table>';
+							echo '</div>';
+						}
+						else
+						{
+							echo '0 results!!';
+						}
+			echo '</form>';
 		}
 		
 		else if(isset($_POST['signout']))
 		{				
-			header("Location:../login.php");
+			header("Location:../login.php");			
 			session_destroy();//session variables must be destroyed after signout
 			mysqli_close($conn);//close connection
 		}
@@ -394,6 +435,75 @@
 				and echo message discard successful
 			else no such item
 			*/
+			 $lab=$_SESSION['labid'];
+			$itemname = $_POST['itemdiscard'];
+			$spec = $_POST['specdiscard'];
+			
+			$qty=$_POST['qtydiscard'];
+			$sql = "select $_SESSION[labid] from stock where Item='$itemname' and Spec='$spec' and Category='Single Item'";
+			$query_result = mysqli_query($conn, $sql);
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				$row=mysqli_fetch_array($query_result);
+				if($qty>$row[0])
+				{
+					echo 'Not enough count';
+					//echo $row[0];
+				}
+				else
+				{
+					$sql="update stock set $lab=$lab-'$qty' 
+					where Item='$itemname' and Spec='$spec' and Category='Single Item'
+					and '$qty'<$lab";
+					mysqli_query($conn, $sql);
+				}
+				
+			}
+			else
+			{
+				echo 'specified item does not exist';
+			}		
+			include 'discard.php';
+		}
+		if(isset($_POST['search']))
+		{
+			include 'searchitemincharge.php';
+			$itemname = $_POST['itemsearch'];
+			$spec = $_POST['specsearch'];
+			$sql = "select Item,$_SESSION[labid],Spec,Category from stock where Item='$itemname' and Spec='$spec'";
+			$query_result = mysqli_query($conn, $sql);
+			if(mysqli_num_rows($query_result) > 0)
+			{
+			echo '	<div style="width:60%;align:center;margin-left:20%;border:2px solid #ccc; max-height:200px;margin-bottom:20px;overflow-y:scroll;">';
+					echo '<table  align= center cellspacing="10" cellpadding="2">';
+					$i=0;
+					$LabID= $_SESSION['labid'];
+					
+					//to display table column names
+					echo '<tr>';
+						while ($i < mysqli_num_fields($query_result))
+						{
+							$meta = mysqli_fetch_field($query_result);
+							$i++;//iterate to obtain next field NAME
+							echo '<th>'.$meta->name.'</th>';						
+							
+						}
+					echo'</tr>';							
+
+						while($row = mysqli_fetch_array($query_result))
+						{
+							echo '<tr><td>'.$row[0].'</td>
+							<td>'.$row[1].'</td>								
+							<td>'.$row[2].'</td>
+							<td>'.$row[3].'</td></tr>';
+						}
+						echo '</table>';
+						echo '</div>';
+			}
+			else
+			{
+				echo '0 results!!';
+			}		
 		}
 	?>
 	

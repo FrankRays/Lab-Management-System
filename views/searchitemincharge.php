@@ -26,9 +26,7 @@
 				<p style="margin-left:47%;">
 					<input type="submit" name="search" value=" SEARCH ">
 				</p>
-				<div style="width:90%;align:center;border:2px solid #ccc; min-height:150px;max-height:300px;margin-left:40px;margin-bottom:20px;overflow:scroll;">
-			display itemname,spec,category and count
-				</div>
+				
 		</form>
 	</div>
 	<!--right panel-->
