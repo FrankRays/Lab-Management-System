@@ -473,7 +473,7 @@
 			include 'searchitemincharge.php';
 			$itemname = $_POST['itemsearch'];
 			$spec = $_POST['specsearch'];
-			$sql = "select Item,$_SESSION[labid],Spec,Category from stock where Item='$itemname' and Spec='$spec'";
+			$sql = "select Item,Spec,Category,$_SESSION[labid] from stock where Item='$itemname' and Spec like '%$spec'or Spec like '% '";
 			$query_result = mysqli_query($conn, $sql);
 			if(mysqli_num_rows($query_result) > 0)
 			{
@@ -495,6 +495,8 @@
 
 						while($row = mysqli_fetch_array($query_result))
 						{
+							if($row[3]==0)
+								continue;
 							echo '<tr><td>'.$row[0].'</td>
 							<td>'.$row[1].'</td>								
 							<td>'.$row[2].'</td>

@@ -296,36 +296,47 @@
 		{
 			include 'searchitemhod.php';
 			$itemname = $_POST['itemsearchhod'];
-			$itemname = trim($itemname); //remove the whitespaces in either end
-			$itemname = strtolower($itemname);
 			$spec = $_POST['specsearchhod'];
-			$sql = "select * from stock where Item='$itemname' and Spec='$spec'";
+			$sql = "select * from stock where Item='$itemname' and Spec like '%$spec' or Spec like '% '";
 			$query_result = mysqli_query($conn, $sql);
 
 			if(mysqli_num_rows($query_result) > 0)
 			{
-				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:250px;margin-right:315px;margin-top:50px;height:100px;width:420px">';
-				echo '<table cellspacing="9" cellpadding="2">
-					  <tr><th>Item</th><th>Lab1</th><th>Lab2</th><th>Lab3</th><th>Spec</th><th>Category</th></tr>';
+				echo '<div style="overflow:scroll;margin-left:100px;border:2px solid #ccc; max-height:200px;width:600px;">';
+				echo '<table cellspacing="9" cellpadding="2">';
 				//to display the result as a table in html
-
-				while($row = mysqli_fetch_array($query_result))
-				{
-					echo '<tr><td>'.$row[0].'</td>
-					<td>'.$row[1].'</td>
-					<td>'.$row[2].'</td>
-					<td>'.$row[3].'</td>
-					<td>'.$row[4].'</td>
-					<td>'.$row[5].'</td></tr>';
-				}
+					//to display table column names
+				
+					$n=mysqli_num_fields($query_result);//number of columns in stock table
+					
+					//iterate to obtain next field NAME
+					for($i=0;$i<$n;$i++)
+					{
+						$meta = mysqli_fetch_field($query_result);
+						echo '<th>'.$meta->name.'</th>';									
+					}
+		
+					while($row = mysqli_fetch_array($query_result))
+					{
+						$n=mysqli_num_fields($query_result);
+						
+						echo '<tr>';
+						for($j=0;$j<$n;$j++)
+						{
+						echo '<td>'.$row[$j].'</td>';						
+						}
+						echo'</tr>';
+					}
 				echo '</table>';
-				echo '</div>';
+				echo'</div>';
+							
 			}
 			else
 			{
 				echo '0 results!!';
 			}
 		}
+
 
 	?>
 		</div>
