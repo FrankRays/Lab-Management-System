@@ -466,7 +466,7 @@
 			$itemname = trim($itemname);
 			$spec = trim($spec);
 			$itemname = strtolower($itemname);
-			$spec = strtolower($itemname);
+			$spec = strtolower($spec);
 			
 			$qty=$_POST['qtydiscard'];
 			$sql = "select $_SESSION[labid] from stock where Item='$itemname' and Spec='$spec' and Category='Single Item'";
@@ -502,7 +502,7 @@
 			$itemname = trim($itemname);
 			$spec = trim($spec);
 			$itemname = strtolower($itemname);
-			$spec = strtolower($spec);
+			$spec = strtolower($spec);	
 			$sql = "select Item,Spec,Category,$_SESSION[labid] from stock where Item='$itemname' and Spec like '%$spec'or Spec like '% '";
 			$query_result = mysqli_query($conn, $sql);
 			if(mysqli_num_rows($query_result) > 0)
