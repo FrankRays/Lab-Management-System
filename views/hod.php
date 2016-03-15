@@ -35,17 +35,17 @@
 		<form method="post">
 		<ul>
 			<hr></hr>
-			<p><input type="submit" name="createuserbtn" value="Create User"></p>
+			<p><input class="taskbutton" type="submit" name="createuserbtn" value="Create User"></p>
 			<hr></hr>
-			<p><input type="submit" name="changepwd" value="Change Password"></p>
+			<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
 			<hr></hr>
-			<p><input type="submit" name="notif" value="Notifications"></p>
+			<p><input class="taskbutton" type="submit" name="notif" value="Notifications"></p>
 			<hr></hr>
-			<p><input type="submit" name="qselection" value="Quotation Selection"></p>		
+			<p><input class="taskbutton" type="submit" name="qselection" value="Quotation Selection"></p>		
 			<hr></hr>
-			<p><input type="submit" name="searchitem" value="Search Item"></p>
+			<p><input class="taskbutton" type="submit" name="searchitem" value="Search Item"></p>
 			<hr></hr>
-			<p><input type="submit" name="viewstock" value="View Stock"></p>
+			<p><input class="taskbutton" type="submit" name="viewstock" value="View Stock"></p>
 			<hr></hr>
 		</ul>
 		</form>
@@ -294,8 +294,8 @@
 
 	?>
 		</div>
-	<div class=center> area for display</div>
-	<div id=right>some image perhaps?</div>
+	<div class=center> </div>
+	<div id=right> </div>
 	<?php mysqli_close($conn); ?>
 	<hr id=hrfooter></hr>
 	<div class=footer><p><em>College Of Engineering, Chengannur</em></p></div>
