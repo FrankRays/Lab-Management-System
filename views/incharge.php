@@ -374,7 +374,14 @@
 		if (isset($_POST['selectaddtostock']))
 		 {
 		 	$_SESSION['selectedprno']=$_POST['prnoaddtostock'];
+		 	if(empty($_POST['prnoaddtostock']))
+			{
+				echo '<script> alert("Enter Prno"); </script>';
+			}
+			else
+			{
 			include 'addtostock2.php';
+			}
 		}
 		if (isset($_POST['addaddtostock']))
 		{
