@@ -52,9 +52,6 @@ table stock
 
 CREATE TABLE `stock` (
  `Item` varchar(30) DEFAULT NULL,
- `Lab1` int(10) DEFAULT NULL,
- `Lab2` int(10) DEFAULT NULL,
- `Lab3` int(10) DEFAULT NULL,
  `Spec` varchar(30) DEFAULT NULL,
  `Category` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
