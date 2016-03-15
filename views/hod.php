@@ -194,39 +194,49 @@
 			$new = $_POST['newpassword'];
 			$re_new = $_POST['reenterpassword'];
 
-			$sql = "select * from users where username=$newusername";
-			$query_result = mysqli_query($conn, $sql);
-			if($query_result == true)
+
+			if(empty($re_new) || empty($new) || empty($newlabid) || empty($newusername))
 			{
-				echo '<script>';
-				echo 'alert("Username already exists")';
-				echo '</script>';
+					echo '<script>';
+					echo 'alert("Please enter all the values")';
+					echo '</script>';
+
 			}
 			else
-			{   
-				if($new == $re_new)
+			{
+				$sql = "select * from users where username=$newusername";
+				$query_result = mysqli_query($conn, $sql);
+				if($query_result == true)
 				{
-					$sql = "insert into users (username,pass,labid,access) values ('$newusername','$new','$newlabid',0)";
-					mysqli_query($conn, $sql);
-					//echo $newlabid;
-					$sql = "alter table stock add $newlabid int(10)";
-					mysqli_query($conn, $sql);
 					echo '<script>';
-					echo 'alert("User create successfully")';
+					echo 'alert("Username already exists")';
 					echo '</script>';
-					$sql = "select max(userid) from users";
-					$query_result=mysqli_query($conn, $sql);
-					$userid=mysqli_fetch_array($query_result);
-					echo 'User ID is :'.$userid[0].' ';
 				}
-				else 
-				{
-					echo '<script>';
-					echo 'alert("Password dont match")';
-					echo '</script>';
+				else
+				{   
+					if($new == $re_new)
+					{
+						$sql = "insert into users (username,pass,labid,access) values ('$newusername','$new','$newlabid',0)";
+						mysqli_query($conn, $sql);
+						//echo $newlabid;
+						$sql = "alter table stock add $newlabid int(10)";
+						mysqli_query($conn, $sql);
+						echo '<script>';
+						echo 'alert("User create successfully")';
+						echo '</script>';
+						$sql = "select max(userid) from users";
+						$query_result=mysqli_query($conn, $sql);
+						$userid=mysqli_fetch_array($query_result);
+						echo 'User ID is :'.$userid[0].' ';
+					}
+					else 
+					{
+						echo '<script>';
+						echo 'alert("Password dont match")';
+						echo '</script>';
+					}
 				}
 			}
-
 
 		}
 		if(isset($_POST['savechangepassword'])) //when save button inside change password is clicked
@@ -235,68 +245,109 @@
 			$new=$_POST['newchangepassword'];
 			$re_new=$_POST['reenterchangepassword'];
 			$userid=$_SESSION['userid'];
-			$sql="select * from users where pass='$current' and userid='$userid'";
-			$query_result = mysqli_query($conn, $sql);	
-			if($query_result !=false)
+
+			if(empty($current) || empty($new) || empty($re_new))
 			{
-				if($new == $re_new)
+				echo '<script>';
+				echo 'alert("Please enter all the values")';
+				echo '</script>';
+			}
+			else
+			{
+				$sql="select * from users where pass='$current' and userid='$userid'";
+				$query_result = mysqli_query($conn, $sql);	
+				if($query_result !=false)
 				{
-					$query_row = mysqli_num_rows($query_result);
-					if($query_row == 1)
+					if($new == $re_new)
 					{
-						$sql = "update users set pass='$new' where userid='$userid'";
-						mysqli_query($conn, $sql);
-						echo '<script>';
-						echo 'alert("Password Changed successfully")';
-						echo '</script>';	
+						$query_row = mysqli_num_rows($query_result);
+						if($query_row == 1)
+						{
+							$sql = "update users set pass='$new' where userid='$userid'";
+							mysqli_query($conn, $sql);
+							echo '<script>';
+							echo 'alert("Password Changed successfully")';
+							echo '</script>';	
+						}
+						else
+						{
+							echo '<script>';
+							echo 'alert("Current password invalid")';
+							echo '</script>';	
+						}
 					}
 					else
 					{
 						echo '<script>';
-						echo 'alert("Current password invalid")';
+						echo 'alert("Passwords dont match")';
 						echo '</script>';	
-
 					}
 				}
 				else
 				{
 					echo '<script>';
-					echo 'alert("Passwords dont match")';
-					echo '</script>';	
-
+					echo 'alert("Current password invalid")';
+					echo '</script>';
 				}
-			}
-			else
-			{
-				echo '<script>';
-				echo 'alert("Current password invalid")';
-				echo '</script>';
-			}	
+				}	
 		}
 		if(isset($_POST['notifacceptbtn'])) //inside notifications
 			{
 				$notifprno=$_POST['notifprno'];
-				$sql1 = "update item set Status=1 where Prno='$notifprno'";
-				$query_result1 = mysqli_query($conn, $sql1);
+				$notifprno = trim($notifprno);
+				if(empty($notifprno))
+				{
+					echo '<script>';
+					echo 'alert("Enter Prno")';
+					echo '</script>';
+				}
+				else
+				{
+					$sql1 = "update item set Status=1 where Prno='$notifprno'";
+				    $query_result1 = mysqli_query($conn, $sql1);
+				}
 			}
 		if(isset($_POST['notifrejectbtn'])) //inside notifications
 		{	
 
 			$notifprno=$_POST['notifprno'];
-			$sql1 = "update item set status=0 where Prno=$notifprno";
-			$query_result1 = mysqli_query($conn, $sql1);
+			if(empty($notifprno))
+			{
+				echo '<script>';
+				echo 'alert("Enter Prno")';
+				echo '</script>';
+			}
+			else
+			{			
+				$sql1 = "update item set status=0 where Prno=$notifprno";
+				$query_result1 = mysqli_query($conn, $sql1);
+			}
 		}
 		if(isset($_POST['quotationselectioncontinue'])) //inside quotation selection
 		{
 			$prno = $_POST['quotationselectiontext'];
-			$_SESSION['prno'] = $prno;
-			header("Location:quotationselection2.php");
+			$prno = trim($prno);
+			if(empty($prno))
+			{
+				echo '<script>
+					  alert("Enter Prno")
+					  </script>';
+			}
+			else
+			{
+				$_SESSION['prno'] = $prno;
+				header("Location:quotationselection2.php");
+			}		
 		}
 		if(isset($_POST['searchhod']))
 		{
 			include 'searchitemhod.php';
 			$itemname = $_POST['itemsearchhod'];
 			$spec = $_POST['specsearchhod'];
+			$itemname = trim($itemname);
+			$spec = trim($spec);
+			$itemname = strtolower($itemname);
+			$spec = strtolower($spec);
 			$sql = "select * from stock where Item='$itemname' and Spec like '%$spec' or Spec like '% '";
 			$query_result = mysqli_query($conn, $sql);
 

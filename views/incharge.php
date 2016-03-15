@@ -182,78 +182,98 @@
 			$new=$_POST['newchangepassword'];
 			$re_new=$_POST['reenterchangepassword'];
 			$userid=$_SESSION['userid'];
-			$sql="select * from users where pass='$current' and userid='$userid'";
-			$query_result = mysqli_query($conn, $sql);	
-			if($query_result !=false)
+			if(empty($current) || empty($new) || empty($re_new))
 			{
-				if($new == $re_new)
+				echo '<script>';
+				echo 'alert("Please enter all the values")';
+				echo '</script>';
+			}
+			else
+			{
+				$sql="select * from users where pass='$current' and userid='$userid'";
+				$query_result = mysqli_query($conn, $sql);	
+				if($query_result !=false)
 				{
-					$query_row = mysqli_num_rows($query_result);
-					if($query_row == 1)
+					if($new == $re_new)
 					{
-						$sql = "update users set pass='$new' where userid='$userid'";
-						mysqli_query($conn, $sql);
-						echo '<script>';
-						echo 'alert("Password Changed successfully")';
-						echo '</script>';	
+						$query_row = mysqli_num_rows($query_result);
+						if($query_row == 1)
+						{
+							$sql = "update users set pass='$new' where userid='$userid'";
+							mysqli_query($conn, $sql);
+							echo '<script>';
+							echo 'alert("Password Changed successfully")';
+							echo '</script>';	
+						}
+						else
+						{
+							echo '<script>';
+							echo 'alert("Current password invalid")';
+							echo '</script>';		
+
+						}
 					}
 					else
 					{
 						echo '<script>';
-						echo 'alert("Current password invalid")';
-						echo '</script>';	
+						echo 'alert("Passwords dont match")';
+						echo '</script>';		
 
 					}
 				}
 				else
 				{
 					echo '<script>';
-					echo 'alert("Passwords dont match")';
-					echo '</script>';	
-
-				}
+					echo 'alert("Current password invalid")';
+					echo '</script>';
+				}	
 			}
-			else
-			{
-				echo '<script>';
-				echo 'alert("Current password invalid")';
-				echo '</script>';
-			}	
 		}
 		//for item purchase request forms
 		if(isset($_POST['continuepurchase1']))
 		{
 			//write code to prevent sql injections and to notify user if important fields are left blank
 			//it will be nice if date input could  be taken from system
-			 $date=$_POST['datepurchase1'];
+			$date=$_POST['datepurchase1'];
 			$category=$_POST['categorypurchase1'];
 			$company=$_POST['companypurchase1'];
 			$quantity=$_POST['quantitypurchase1'];
 			$LabID= $_SESSION['labid'];
-			$sql="insert into item(ReqDate,Category,Company,Quantity,LabID) values ('$date','$category','$company','$quantity','$LabID')";
-			if (mysqli_query($conn, $sql)) 
+			if(empty($date) || empty($quantity))
 			{
-			echo "New record created successfully";
-			} else {
-			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+				echo '<script> alert("All except Company is mandatory"); </script>';
 			}
-			$sql = "select max(Prno) from item" ;
-			$query_result=mysqli_query($conn,$sql);
+			else
+			{
+				$sql="insert into item(ReqDate,Category,Company,Quantity,LabID) values ('$date','$category','$company','$quantity','$LabID')";
+				if (mysqli_query($conn, $sql)) 
+				{
+				echo "New record created successfully";
+				} else {
+				echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+				}
+				$sql = "select max(Prno) from item" ;
+				$query_result=mysqli_query($conn,$sql);
+				
+				$row = mysqli_fetch_array($query_result);
+				
+				$prno=$row[0];
+				$sql="update prno set prno='$prno' where id=1";
+				$query_result=mysqli_query($conn,$sql);
+				header("Location:purchase2.php");
+			}
 			
-			$row = mysqli_fetch_array($query_result);
-			
-			$prno=$row[0];
-			$sql="update prno set prno='$prno' where id=1";
-			$query_result=mysqli_query($conn,$sql);
-			
-     
-			header("Location:purchase2.php");
 		}
 		//request status
 		if (isset($_POST['okrequeststatus'])) 
 		{
 			$date=$_POST['daterequeststatus'];
-			
+			if(empty($date))
+			{
+				echo '<script> alert("Please enter date"); </script>';
+			}
+			else
+			{
 			$sql="select ReqDate,Prno,Item,Spec,Quantity,Category,Status 
 				from item natural join item_spec 
 				where item.ReqDate>'$date'and item.add_stock='n' and LabID='$_SESSION[labid]'";
@@ -318,6 +338,7 @@
 				alert("No entries after specified date");
 				</script>';
 			}
+		}
 			
 		}
 		//quotation details
@@ -351,7 +372,8 @@
 		if (isset($_POST['addaddtostock']))
 		{
 			//find a way of inserting system date into Add_date field of item table
-			$sql="update item set add_stock='y' 
+			$dat = date("Y-m-d");
+			$sql="update item set Add_stock='y', Add_date='$dat'
 					where Prno='$_SESSION[selectedprno]'";
 			$query_result=mysqli_query($conn,$sql);
 			$sql="select Item,Spec,Category,Quantity
@@ -441,6 +463,10 @@
 			 $lab=$_SESSION['labid'];
 			$itemname = $_POST['itemdiscard'];
 			$spec = $_POST['specdiscard'];
+			$itemname = trim($itemname);
+			$spec = trim($spec);
+			$itemname = strtolower($itemname);
+			$spec = strtolower($itemname);
 			
 			$qty=$_POST['qtydiscard'];
 			$sql = "select $_SESSION[labid] from stock where Item='$itemname' and Spec='$spec' and Category='Single Item'";
@@ -473,6 +499,10 @@
 			include 'searchitemincharge.php';
 			$itemname = $_POST['itemsearch'];
 			$spec = $_POST['specsearch'];
+			$itemname = trim($itemname);
+			$spec = trim($spec);
+			$itemname = strtolower($itemname);
+			$spec = strtolower($spec);
 			$sql = "select Item,Spec,Category,$_SESSION[labid] from stock where Item='$itemname' and Spec like '%$spec'or Spec like '% '";
 			$query_result = mysqli_query($conn, $sql);
 			if(mysqli_num_rows($query_result) > 0)

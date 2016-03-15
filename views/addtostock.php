@@ -56,9 +56,7 @@
 							echo '</table>';
 						}
 						else
-							echo '<script>
-							alert("Nothing left to add");
-						  </script>';
+							echo 'Nothing to add!!!!';
 						?>
 						
 						</td>
