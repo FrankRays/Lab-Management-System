@@ -345,7 +345,14 @@
 		if (isset($_POST['selectquotationdetails']))
 		 {
 			$_SESSION['selectedprno']=$_POST['prnoquotationdetails'];
-			include 'quotationdetails3.php';
+			if(empty($_POST['prnoquotationdetails']))
+			{
+				echo '<script> alert("Enter Prno"); </script>';
+			}
+			else
+			{
+				include 'quotationdetails3.php';
+			}
 		}
 		if (isset($_POST['addquotationdetails3']))
 		 {
