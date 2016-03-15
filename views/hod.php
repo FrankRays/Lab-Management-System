@@ -296,6 +296,8 @@
 		{
 			include 'searchitemhod.php';
 			$itemname = $_POST['itemsearchhod'];
+			$itemname = trim($itemname); //remove the whitespaces in either end
+			$itemname = strtolower($itemname);
 			$spec = $_POST['specsearchhod'];
 			$sql = "select * from stock where Item='$itemname' and Spec='$spec'";
 			$query_result = mysqli_query($conn, $sql);

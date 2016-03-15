@@ -129,6 +129,10 @@
 		 	//and to disable the add component button after one click, if single item is selected
 		 	$itemname=$_POST['itemnamepurchase2'];
 		 	$spec=$_POST['specificationpurchase2'];
+		 	$itemname = trim($itemname);
+		 	$spec = trim($spec);
+		 	$itemname = strtolower($itemname);
+		 	$spec = strtolower($spec);
 		 	$sql = "select max(Prno) from item" ;
 			$query_result=mysqli_query($conn,$sql);
 			
