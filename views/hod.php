@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--modified-->
 <html>
 <head>
 	<title>Hod screen</title>
@@ -34,7 +34,6 @@
 		<hr>
 		<form method="post">
 		<ul>
-			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="createuserbtn" value="Create User"></p>
 			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
@@ -46,7 +45,6 @@
 			<p><input class="taskbutton" type="submit" name="searchitem" value="Search Item"></p>
 			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="viewstock" value="View Stock"></p>
-			<hr></hr>
 		</ul>
 		</form>
 
@@ -132,27 +130,53 @@
 
 			if(mysqli_num_rows($query_result) > 0)
 			{
-				echo '<div style="overflow-x:hidden;overflow-y:scroll;margin-left:250px;margin-right:315px;margin-top:80px;height:150px;width:420px">';
-				echo '<table cellspacing="9" cellpadding="2">
-					  <tr><th>Item</th><th>Lab1</th><th>Lab2</th><th>Lab3</th><th>Spec</th><th>Category</th></tr>';
+				echo '<div style="overflow:scroll;margin-left:100px;margin-top:80px;height:300px;width:600px;">';
+				echo '<table cellspacing="9" cellpadding="2">';
 				//to display the result as a table in html
+					$LabID= $_SESSION['labid'];
+					//to display table column names
+				
+					$n=mysqli_num_fields($query_result);
+					
+					//iterate to obtain next field NAME
+					for($i=0;$i<$n;$i++)
+					{
+						$meta = mysqli_fetch_field($query_result);
+						echo '<th>'.$meta->name.'</th>';
+									
+					}
+		
+					while($row = mysqli_fetch_array($query_result))
+					{
+						$n=mysqli_num_fields($query_result);
+						echo '<tr>';
+						for($j=0;$j<$n;$j++)
+						{
 
-				while($row = mysqli_fetch_array($query_result))
-				{
-					echo '<tr><td>'.$row[0].'</td>
-					<td>'.$row[1].'</td>
-					<td>'.$row[2].'</td>
-					<td>'.$row[3].'</td>
-					<td>'.$row[4].'</td>
-					<td>'.$row[5].'</td></tr>';
-				}
+						echo '<td>'.$row[$j].'</td>';
+						/*
+							if($j==0)
+								$j=4;
+							else if($j==5)
+								$j=1;
+							else if($j==3)
+								$j=6;
+							else
+								$j++;
+						*/
+						}
+						echo'</tr>';
+					}
 				echo '</table>';
-				echo '</div>';
+				echo'</div>';
+							
 			}
 			else
 			{
 				echo '0 results!!';
 			}
+			echo'</table>';
+
 		}
 		else if(isset($_POST['signout']))
 		{				
@@ -165,6 +189,8 @@
 		{
 			$newusername = $_POST['newusername'];
 			$newlabid = $_POST['newlabid'];
+			//strip whitespaces
+			$newlabid=preg_replace('/\s+/', '', $newlabid);
 			$new = $_POST['newpassword'];
 			$re_new = $_POST['reenterpassword'];
 
@@ -182,9 +208,16 @@
 				{
 					$sql = "insert into users (username,pass,labid,access) values ('$newusername','$new','$newlabid',0)";
 					mysqli_query($conn, $sql);
+					//echo $newlabid;
+					$sql = "alter table stock add $newlabid int(10)";
+					mysqli_query($conn, $sql);
 					echo '<script>';
 					echo 'alert("User create successfully")';
 					echo '</script>';
+					$sql = "select max(userid) from users";
+					$query_result=mysqli_query($conn, $sql);
+					$userid=mysqli_fetch_array($query_result);
+					echo 'User ID is :'.$userid[0].' ';
 				}
 				else 
 				{

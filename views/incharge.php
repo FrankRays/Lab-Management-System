@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--modified-->
 <html>
 <head>
 	<title>Incharge screen</title>
@@ -120,50 +120,53 @@
 		}
 		else if(isset($_POST['viewstock']))
 		{
-			$sql = "select Item,$_SESSION[labid],Spec,Category from stock";
+			$sql = "select Item,Spec,Category,$_SESSION[labid] from stock";
 			$query_result = mysqli_query($conn, $sql);
-			
-			echo '
-				<form method="post">
-					<p style="text-align: center; font-size:20px;">&nbsp;VIEW STOCK</p>
-					<hr />
-					<p></p>';								
-					
-			echo '	<div style="width:60%;align:center;margin-left:20%;border:2px solid #ccc; max-height:250px;margin-bottom:20px;overflow-y:scroll;">';
-					echo '<table  align= center cellspacing="10" cellpadding="2">';
-					$i=0;
+			//check if there are items in stock	
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				echo '<div style="overflow:scroll;margin-left:100px;margin-top:80px;height:300px;width:600px;">';
+				echo '<table cellspacing="9" cellpadding="2">';
+				//to display the result as a table in html
 					$LabID= $_SESSION['labid'];
 					//to display table column names
-					echo '<tr>';
-						while ($i < mysqli_num_fields($query_result))
+				
+					$n=mysqli_num_fields($query_result);
+					
+					//iterate to obtain next field NAME
+					for($i=0;$i<$n;$i++)
+					{
+						
+						$meta = mysqli_fetch_field($query_result);
+						echo '<th>'.$meta->name.'</th>';
+									
+					}
+		
+					while($row = mysqli_fetch_array($query_result))
+					{
+						$n=mysqli_num_fields($query_result);
+						echo '<tr>';
+						for($j=0;$j<$n;$j++)//here by default $n=4
 						{
-							$meta = mysqli_fetch_field($query_result);
-							$i++;//iterate to obtain next field NAME
-							echo '<th>'.$meta->name.'</th>';						
+							if($row[$n-1]==0)
+								continue;
+						echo '<td>'.$row[$j].'</td>';
+						
+						}
+						echo'</tr>';
+					}
+				echo '</table>';
+				echo'</div>';
 							
-						}
-					echo'</tr>';
-						if(mysqli_num_rows($query_result) > 0)
-						{
+			}
+			else
+			{
+				echo '0 results!!';
+			}
+			echo'</table>';
 
-							while($row = mysqli_fetch_array($query_result))
-							{
-								if($row[1]==0)
-									continue;
-								echo '<tr><td>'.$row[0].'</td>
-								<td>'.$row[1].'</td>								
-								<td>'.$row[2].'</td>
-								<td>'.$row[3].'</td></tr>';
-							}
-							echo '</table>';
-							echo '</div>';
-						}
-						else
-						{
-							echo '0 results!!';
-						}
-			echo '</form>';
 		}
+
 		
 		else if(isset($_POST['signout']))
 		{				
@@ -240,7 +243,7 @@
 			$row = mysqli_fetch_array($query_result);
 			
 			$prno=$row[0];
-			$sql="update prno set prno='$prno') where id=1";
+			$sql="update prno set prno='$prno' where id=1";
 			$query_result=mysqli_query($conn,$sql);
 			
      
@@ -360,22 +363,22 @@
 			$result = mysqli_query($conn,$query);
 			$i=0;
 			$LabID= $_SESSION['labid'];
-			while ($i < mysqli_num_fields($result))
-			{
-			$meta = mysqli_fetch_field($result);
-				//$meta->name gives field name
-
-				if($meta->name==$LabID)
-				{
-					$labss=$meta->name;
-					break;
-				}
-				$i++;//iterate to obtain next field NAME	
-
-			}
-
 			if(mysqli_num_rows($query_result)>0)
-			{			
+			{	
+				while ($i < mysqli_num_fields($result))
+				{
+				$meta = mysqli_fetch_field($result);
+					//$meta->name gives field name
+
+					if($meta->name==$LabID)
+					{
+						$labss=$meta->name;
+						break;
+					}
+					$i++;//iterate to obtain next field NAME	
+
+				}
+						
 				
 				//for each record in item_spec table that needs to be added to stock
 				while($row=mysqli_fetch_assoc($query_result))
