@@ -139,7 +139,8 @@
 			$row = mysqli_fetch_array($query_result);
 			
 			$prno=$row[0];
-			
+			if(empty($itemname))
+				echo '<script> alert("Itemname is mandatory"); </script>';
 		 	$sql="insert into item_spec values('$prno','$itemname','$spec')";
 			$query_result=mysqli_query($conn,$sql);
 		    
