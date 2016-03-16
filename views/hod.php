@@ -219,7 +219,7 @@
 						$sql = "insert into users (username,pass,labid,access) values ('$newusername','$new','$newlabid',0)";
 						mysqli_query($conn, $sql);
 						//echo $newlabid;
-						$sql = "alter table stock add $newlabid int(10)";
+						$sql = "alter table stock add $newlabid int(10) default '0'";
 						mysqli_query($conn, $sql);
 						echo '<script>';
 						echo 'alert("User create successfully")';
