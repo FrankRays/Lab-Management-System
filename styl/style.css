@@ -1,3 +1,7 @@
+body{
+	background-image: url("../img/loginimage25.jpg");
+	background-repeat: repeat;
+}
 .container {
 	text-align: center;
 	margin: 50px auto;

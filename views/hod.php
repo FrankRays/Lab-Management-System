@@ -34,10 +34,7 @@
 		<hr>
 		<form method="post">
 		<ul>
-			<p><input class="taskbutton" type="submit" name="createuserbtn" value="Create User"></p>
-			<hr></hr>
-			<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
-			<hr></hr>
+			
 			<p><input class="taskbutton" type="submit" name="notif" value="Notifications"></p>
 			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="qselection" value="Quotation Selection"></p>		
@@ -45,9 +42,26 @@
 			<p><input class="taskbutton" type="submit" name="searchitem" value="Search Item"></p>
 			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="viewstock" value="View Stock"></p>
+			<hr></hr>
+			<p><input class="taskbutton" type="submit" name="quotationlog" value="Quotation Log"></p>
+			<hr></hr>
 		</ul>
 		</form>
 
+	</div>
+	<!--right panel-->
+	<div id=right>
+		<p style="color:#aa0000;font-size:20px;">TASKS</p>
+		<hr>
+		<hr>
+		<form method="post">
+			<ul>
+				<p><input class="taskbutton" type="submit" name="createuserbtn" value="Create User"></p>
+				<hr></hr>
+				<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
+				<hr></hr>
+			</ul>
+		</form>
 	</div>
 	<!-- center panel-->
 	<div class="center" id="center"> 
@@ -387,12 +401,57 @@
 				echo '0 results!!';
 			}
 		}
+		if(isset($_POST['quotationlog']))
+		{
+			$sql = "select Item, SupplierName, Address, PhoneNo 
+					from item_spec natural join quotation
+					order by Item asc";
+			$query_result = mysqli_query($conn, $sql);
 
+			if(mysqli_num_rows($query_result) > 0)
+			{
+				echo '<div style="overflow:scroll;margin-left:100px;margin-top:80px;height:300px;width:600px;">';
+				echo '<table cellspacing="9" cellpadding="2">';
+				//to display the result as a table in html
+					$LabID= $_SESSION['labid'];
+					//to display table column names
+				
+					$n=mysqli_num_fields($query_result);
+					
+					//iterate to obtain next field NAME
+					for($i=0;$i<$n;$i++)
+					{
+						$meta = mysqli_fetch_field($query_result);
+						echo '<th>'.$meta->name.'</th>';
+									
+					}
+		
+					while($row = mysqli_fetch_array($query_result))
+					{
+						$n=mysqli_num_fields($query_result);
+						echo '<tr>';
+						for($j=0;$j<$n;$j++)
+						{
+
+						echo '<td>'.$row[$j].'</td>';
+						
+						}
+						echo'</tr>';
+					}
+				echo '</table>';
+				echo'</div>';
+							
+			}
+			else
+			{
+				echo '0 results!!';
+			}
+			echo'</table>';
+		}
 
 	?>
-		</div>
-	<div class=center> </div>
-	<div id=right> </div>
+	</div>
+	
 	<?php mysqli_close($conn); ?>
 	<hr id=hrfooter></hr>
 	<div class=footer><p><em>College Of Engineering, Chengannur</em></p></div>
