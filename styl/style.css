@@ -1,21 +1,30 @@
 body{
-	background-image: url("../img/loginimage25.jpg");
-	background-repeat: repeat;
+	background-image: url("../img/badacsony.jpg");
+	/*background-image: url("../img/foggymorning2.jpg");*/
+	background-size: 100%;
+	
 }
 .container {
 	text-align: center;
 	margin: 50px auto;
 	width: 640px;
+	font-color:white;
 }
 
 
 .login {
   	position: relative;
  	margin: 0 auto;
-  	padding: 20px 20px 20px;
+  	padding: 30px 30px 30px;
   	width: 310px;
 }
-
-.login p.loginbtn{
-	text-align: center;
+.login h1{
+	font-family:papyrus;
+}
+.loginbtn input{
+	border-radius: 5px;
+	border-bottom-color:midnightblue;
+	border-right-color: midnightblue;
+	width: 100px;
+	height:30px;
 }
