@@ -43,7 +43,7 @@
 			<hr></hr>
 			<p><input class="taskbutton" type="submit" name="viewstock" value="View Stock"></p>
 			<hr></hr>
-			<p><input class="taskbutton" type="submit" name="quotationlog" value="Quotation Log"></p>
+			<p><input class="taskbutton" type="submit" name="quotationlog" value="Prev Supplier Info"></p>
 			<hr></hr>
 		</ul>
 		</form>
