@@ -359,7 +359,8 @@
 			$itemname = $_POST['itemsearchhod'];
 			$spec = $_POST['specsearchhod'];
 			$itemname = trim($itemname);
-			$spec = trim($spec);
+			$spec = trim($spec,"");
+			$spec = preg_replace('/\s+/', '', $spec);
 			$itemname = strtolower($itemname);
 			$spec = strtolower($spec);
 			$sql = "select * from stock where Item='$itemname' and Spec like '%$spec' or Spec like '% '";

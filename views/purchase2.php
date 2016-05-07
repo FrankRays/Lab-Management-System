@@ -131,6 +131,7 @@
 		 	$spec=$_POST['specificationpurchase2'];
 		 	$itemname = trim($itemname);
 		 	$spec = trim($spec);
+		 	$spec = preg_replace('/\s+/', '', $spec);
 		 	$itemname = strtolower($itemname);
 		 	$spec = strtolower($spec);
 		 	$sql = "select max(Prno) from item" ;

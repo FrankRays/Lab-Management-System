@@ -34,18 +34,16 @@
 		<hr>
 		<form method="post">
 		<ul>
+			
+			<p><input class="taskbutton" type="submit" name="notif" value="Notifications"></p>
 			<hr></hr>
-			<p><input type="submit" name="createuserbtn" value="Create User"></p>
+			<p><input class="taskbutton" type="submit" name="qselection" value="Quotation Selection"></p>		
 			<hr></hr>
-			<p><input type="submit" name="changepwd" value="Change Password"></p>
+			<p><input class="taskbutton" type="submit" name="searchitem" value="Search Item"></p>
 			<hr></hr>
-			<p><input type="submit" name="notif" value="Notifications"></p>
+			<p><input class="taskbutton" type="submit" name="viewstock" value="View Stock"></p>
 			<hr></hr>
-			<p><input type="submit" name="qselection" value="Quotation Selection"></p>		
-			<hr></hr>
-			<p><input type="submit" name="searchitem" value="Search Item"></p>
-			<hr></hr>
-			<p><input type="submit" name="viewstock" value="View Stock"></p>
+			<p><input class="taskbutton" type="submit" name="quotationlog" value="Quotation Log"></p>
 			<hr></hr>
 		</ul>
 		</form>
@@ -72,7 +70,7 @@
 
 			if(mysqli_num_rows($query_result) > 0)
 			{
-				echo '<div style="overflow:scroll;margin-left:200px;margin-right:315px;margin-top:50px;height:100px;width: 500px">';
+				echo '<div style="overflow:scroll;margin-left:200px;margin-right:315px;margin-top:50px;height:200px;width: 500px">';
 				echo '<table>
 					  <tr><th>SerialNo</th><th>SupplierName</th><th>Address</th><th>PhoneNo</th><th>Amount</th></tr>';
 				//to display the result as a table in html
@@ -109,8 +107,19 @@
 	?>
 
 		</div>
-	<div class=center> area for display</div>
-	<div id=right>some image perhaps?</div>
+	<div id=right>
+		<p style="color:#aa0000;font-size:20px;">TASKS</p>
+		<hr>
+		<hr>
+		<form method="post">
+			<ul>
+				<p><input class="taskbutton" type="submit" name="createuserbtn" value="Create User"></p>
+				<hr></hr>
+				<p><input class="taskbutton" type="submit" name="changepwd" value="Change Password"></p>
+				<hr></hr>
+			</ul>
+		</form>
+	</div>
 	<?php mysqli_close($conn); ?>
 	<hr id=hrfooter></hr>
 	<div class=footer><p><em>College Of Engineering, Chengannur</em></p></div>
